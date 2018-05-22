@@ -1,0 +1,15 @@
+hostname: TOR-1
+ansible_host: 10.17.238.136
+type: tor
+interfaces:
+  - name: "Ethernet1/1"
+    description: "Core-1"
+    channel_group: 11
+  - name: "Ethernet1/2"
+    description: "Core-2"
+    channel_group: 11
+  - name: "Ethernet1/3"
+    description: "Server-1"
+  - name: mgmt0
+    description: "OOB Management"
+    ip: "{{ ansible_host }}"

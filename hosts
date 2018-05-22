@@ -1,0 +1,9 @@
+localhost
+
+[core]
+
+[tor]
+
+[dc:children]
+core
+tor

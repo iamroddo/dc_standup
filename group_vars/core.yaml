@@ -1,0 +1,8 @@
+features:
+  - bgp
+  - ospf
+  - lacp
+  - tacacs
+  - vpc
+  - scp-server
+vpc_domain_id: 1

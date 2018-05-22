@@ -1,0 +1,53 @@
+{% if features is defined %}
+{% for item in features %}
+feature {{ item }}
+{% endfor %}
+{% endif %}
+!
+banner motd #
+            ,,,,,
+            /'''\
+           ( o o )
+      -oOOO--(_)--OOOo-------------------------------------------
+       Router: {{ inventory_hostname }}
+                      Secured system for authorized users only.
+       .oooO          Unauthorized access is strictly prohibited.
+        (   )   Oooo. All activities may be logged and monitored.
+      ---\ (----(   )--------------------------------------------
+          \_)    ) /
+                (_/
+#
+!
+no ip domain-lookup
+!
+{% for item in interfaces %}
+interface {{ item.name }}
+ description {{ item.description }}
+{% if item.channel_group is defined %}
+ channel-group {{ item.channel_group }} mode active
+{% elif (item.peerlink is defined) and (item.peerlink == "True") %}
+ spanning-tree port type network
+ vpc peer-link
+{% elif "port-channel" in item.name %}
+ mtu 9216
+{% elif (item.keepalive is defined) and (item.keepalive == "True") %}
+ vrf member vpc
+ ip address {{ vpc.self }}/24
+{% elif item.vrf is defined %}
+ vrf member {{ item.vrf }}
+{% elif item.ip is defined %}
+ ip address {{ item.ip }}
+{% endif %}
+ no shutdown
+!
+{% endfor %}
+!
+vrf context management
+  ip route 0.0.0.0/0 {{ management_default }}
+!
+{% if vpc is defined %}
+vpc domain {{ vpc_domain_id }}
+  role priority {{ vpc.priority }}
+  system-priority 1
+  peer-keepalive destination {{ vpc.peer }} source {{ vpc.self }} vrf vpc
+{% endif %}

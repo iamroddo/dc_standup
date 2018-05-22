@@ -1,0 +1,3 @@
+---
+conf_dir: "{{ playbook_dir }}/configs"
+management_default: 10.17.238.2

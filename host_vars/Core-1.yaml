@@ -1,0 +1,44 @@
+hostname: Core-1
+ansible_host: 10.17.238.134
+type: core
+interfaces:
+  - name: "Ethernet1/1"
+    description: "TOR-1"
+    channel_group: 11
+  - name: "Ethernet1/2"
+    description: "TOR-2"
+    channel_group: 12
+  - name: "Ethernet1/5"
+    description: "Core-2"
+    channel_group: 1
+  - name: "Ethernet1/6"
+    description: "Core-2"
+    channel_group: 1
+  - name: "Ethernet1/7"
+    description: "Admin-MPLS-S1"
+    channel_group: 2
+  - name: "Ethernet1/8"
+    description: "Admin-MPLS-S2"
+    channel_group: 2
+  - name: "Ethernet1/64"
+    description: VPC Keepalive
+    keepalive: True
+  - name: port-channel1
+    description: VPC Peer-Link
+    peerlink: True
+  - name: port-channel11
+    description: TOR-1
+  - name: port-channel12
+    description: TOR-2
+  - name: port-channel13
+    description: TOR-3
+  - name: port-channel14
+    description: TOR-4
+  - name: mgmt0
+    description: "OOB Management"
+    ip: "{{ ansible_host }}"
+vpc:
+  primary: True
+  priority: 10
+  self: 1.1.1.1
+  peer: 1.1.1.2
